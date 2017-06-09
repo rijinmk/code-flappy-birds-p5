@@ -1,0 +1,52 @@
+<html>
+  <head>
+  </head>
+  
+  <body>
+  </body>
+  
+  <script src="p5.js"></script>
+  <script src="bird.js"></script>
+  <script src="pipe.js"></script>
+  <script>
+    var bird; 
+    var pipes = []; 
+    var over = 0; 
+    function setup(){
+      createCanvas(400,600); 
+      bird = new Bird(); 
+    }
+    
+    function draw(){
+      if(over){
+        background(255, 0, 0);
+      }else{
+        background(0, 0, 0);
+        bird.show(); 
+        bird.update(); 
+        
+        if(frameCount%50 == 0){
+          pipes.push(new Pipe());
+        }
+        
+        for(var i=pipes.length-1; i>=0; i--){
+          pipes[i].show(); 
+          pipes[i].update(); 
+          console.log(pipes.length); 
+          if(pipes[i].hits(bird)){
+            over = 1; 
+          }
+          if(pipes[i].x < -30){
+            pipes.splice(i, 1);
+          }
+        }
+      }
+    }
+    
+    function keyPressed(){
+      if(key == ' '){
+        bird.up(); 
+      }
+    }
+  </script>
+</html>
